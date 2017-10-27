@@ -1,0 +1,88 @@
+<!--by LDD, вроде бы так?-->
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <title>
+            Third_Homework_due30-10-17_LDD
+        </title>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <style>
+            body
+            {
+                background-color: rgb(232, 232,232);
+                font-family: sans-serif;
+                padding:0;
+                display: flex;               
+                justify-content:center;
+                margin:0;
+            }
+            .contanier
+            {
+                width: 80%;
+                padding:3rem;
+                display: flex;               
+                justify-content:center;
+                flex-direction: row;
+                flex-wrap: wrap;
+                align-items:flex-start;
+                margin:auto;
+            }
+            .contanier .note:nth-child(1)
+            {
+                background-color:rgb(253, 255, 141);
+            }   
+            .contanier .note:nth-child(2)
+            {
+                background-color: rgb(251, 208, 123);
+            }
+            .contanier .note:nth-child(3)
+            {
+                background-color: rgb(253, 137,128);
+            }
+            .contanier .note:nth-child(4)
+            {
+                background-color: rgb(128, 216,253);
+            }
+            .note
+            {
+                padding:1.5rem;
+                width: 13rem;
+                min-height: 13rem;
+                box-shadow:1px 1px 2px #aaa;
+                margin:0.5rem;
+                flex-wrap: wrap;
+                border-radius: 1px;
+            }
+            .note .name:nth-child(1)
+            {
+                font-size: 2rem;
+                font-weight:bolder;
+            }
+
+            .text
+            {
+                margin-top: .4rem;
+            }
+
+            @media (max-width:768px)
+            {
+                .contanier
+                {
+                    padding:1.3rem;
+                }
+                .note
+                {
+                    width:100%;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class='contanier'>
+            <div class='note'><div class='name'>sample note</div> <div class='text'>a reminder to do something idk</div></div>
+            <div class='note'><div class='name'>sample note</div> <div class='text'>a reminder to do something idk</div></div>
+            <div class='note'><div class='name'>sample note</div> <div class='text'>a reminder to do something idk</div></div>
+            <div class='note'><div class='name'>sample note</div> <div class='text'>a reminder to do something idk</div></div>
+        </div>
+    </body>
+</html>
