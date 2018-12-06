@@ -50,6 +50,7 @@ public class ViewManager {
                 GameViewManager gameManager = new GameViewManager();
                 isOnGame = true;
                 gameStage = gameManager.createNewGame(mainStage);
+                gameStage.setResizable(false);
                 gameTimer = gameManager.getGameTimer();
             }
             else{

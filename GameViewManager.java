@@ -81,7 +81,7 @@ public class GameViewManager {
                     gameTimer.stop();
                     PauseViewManager pauseManager = new PauseViewManager();
                     pauseStage = pauseManager.createNewPause(gameStage,player, takebale, gameTimer, this);
-
+                    pauseStage.setResizable(false);
             }else if (event.getCode() == KeyCode.LEFT) {
                 isLeftKeyPressed=true;
             } else if (event.getCode() == KeyCode.RIGHT) {
@@ -251,7 +251,7 @@ public class GameViewManager {
             @Override
             public void handle(long now) {
                 moveCharacter();
-                //moveEnemy();
+                moveEnemy();
                 checkIfElementsCollide();
             }
         };
@@ -259,10 +259,11 @@ public class GameViewManager {
     }
 
     private void moveCharacter() {
+        changeHealthStatistics(player.getHealth());
         if (player.getHealth()<=0){
             gameTimer.stop();
             MenuButton lose = new MenuButton("YOU DIED");
-            lose.setLayoutX(GAME_WIDTH/2);
+            lose.setLayoutX(GAME_WIDTH/2 - 75);
             lose.setLayoutY(GAME_HEIGHT/2);
             gamePane.getChildren().add(lose);
             lose.setOnAction(event -> {
@@ -386,7 +387,7 @@ public class GameViewManager {
                 double xx=mimic.getPosInX(), yy = mimic.getPosInY(), rr=mimic.getRadius();
 
                 if (sqrt((xx - centerX) * (xx - centerX) + (yy - centerY) * (yy - centerY)) <= rr+radius){
-
+                    mimic.setVelocity(10);
                     if (mimic.getTimeForWaiting()>0){
                         mimic.setTimeForWaiting(mimic.getTimeForWaiting() - 1);
                     }else {
@@ -395,10 +396,11 @@ public class GameViewManager {
                             mimic.setTimeForWaiting(random.nextInt(7)+5);
                         }
                     }
-                    if (isFKeyPressed && mimic.isWaiting()){
+                    if (isFKeyPressed){
                         mimic.setHealth(mimic.getHealth() - player.getDamage());
                         if (mimic.getHealth()<=0) {
                             mimic.setAlive(false);
+                            gamePane.getChildren().remove(mimic.getImage());
                             enemies.remove(mimic);
                         }
                         isFKeyPressed = false;
@@ -417,6 +419,7 @@ public class GameViewManager {
                         }
                     }
                 }
+                mimic.setVelocity(2);
             }
         }
         for(int i = 0; i< takebale.size(); ++i){

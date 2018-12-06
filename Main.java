@@ -12,6 +12,7 @@ public class Main extends Application {
             ViewManager manager = new ViewManager();
             primaryStage = manager.getMainStage();
             primaryStage.show();
+            primaryStage.setResizable(false);
         }catch(Exception e){
             e.printStackTrace();
         }

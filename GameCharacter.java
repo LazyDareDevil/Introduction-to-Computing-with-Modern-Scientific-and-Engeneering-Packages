@@ -12,6 +12,7 @@ public class GameCharacter extends GameObject {
     private int health = 200;
     private int stamina = 2000;
     private int damage = 0;
+    private int selfDamage = 0;
     private double velocityX;
     private double velocityY;
     private int velocityStamina = 30;
@@ -105,7 +106,7 @@ public class GameCharacter extends GameObject {
     }
 
     public int getDamage() {
-        return damage;
+        return damage + selfDamage;
     }
 
     public void setDamage(int damage) {
@@ -151,5 +152,13 @@ public class GameCharacter extends GameObject {
             this.getImage().setLayoutY(this.getPositionY());
             this.setDamage(damage);
         }
+    }
+
+    public int getSelfDamage() {
+        return selfDamage;
+    }
+
+    public void setSelfDamage(int selfDamage) {
+        this.selfDamage = selfDamage;
     }
 }

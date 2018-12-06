@@ -4,16 +4,14 @@ import javafx.animation.AnimationTimer;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Scene;
-import javafx.scene.control.ContextMenu;
-import javafx.scene.control.ListView;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import ru.AMCP.LDD.Models.*;
+import ru.AMCP.LDD.Models.MenuButton;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -26,6 +24,7 @@ public class PauseViewManager {
     private final static String FONT_PATH="ru/AMCP/LDD/Resourses/font_for_prey.otf";
     private final static String BACKGROUND_IMAGE = "ru/AMCP/LDD/Resourses/Background2.png";
 
+    private AnimationTimer timer;
     private GameViewManager game;
     private AnchorPane pausePane;
     private Scene pauseScene;
@@ -131,7 +130,6 @@ public class PauseViewManager {
                     player.setArmored(true, ((Weapon) elements.get(index)).getDamage());
                 }else {
                     if (elements.get(index).getFlag() == 3){
-                        inventory.moveSubscene();
                         showSubScene(neuromods);
                     }
                     player.getEffect(elements.get(index).getFlag());
@@ -156,16 +154,15 @@ public class PauseViewManager {
     }
 
     private void createNeuromodsSubScene(){
-        neuromods = new PauseSubScene();
+        neuromods = new NeuromodsSubScene(player);
         pausePane.getChildren().add(neuromods);
-        int[] indexesOfNeuromods = new int[player.getInventory().size()];
-        int numberOfNeuromods = 0;
-        for(int i=0;i<player.getInventory().size();++i){
-            if (player.getInventory().get(i).getFlag() == 3){
-                indexesOfNeuromods[numberOfNeuromods++] = i;
+        timer = new AnimationTimer() {
+            @Override
+            public void handle(long now) {
+                ((NeuromodsSubScene) neuromods).redrawSubScene();
             }
-        }
-        //...
+        };
+        timer.start();
     }
 
     private void createCharacterListButton(){
@@ -180,7 +177,10 @@ public class PauseViewManager {
         MenuButton button = new MenuButton("INVENTORY");
         button.setLayoutX(540);
         button.setLayoutY(50);
-        button.setOnAction(event -> showSubScene(inventory));
+        button.setOnAction(event -> {
+            updateInventory();
+            showSubScene(inventory);
+        });
         pausePane.getChildren().add(button);
     }
 
@@ -188,13 +188,17 @@ public class PauseViewManager {
         MenuButton button = new MenuButton("NEUROMODS");
         button.setLayoutX(780);
         button.setLayoutY(50);
-        button.setOnAction(event -> showSubScene(neuromods));
+        button.setOnAction(event -> {
+            showSubScene(neuromods);
+            timer.start();
+        });
         pausePane.getChildren().add(button);
     }
 
     private void showSubScene(PauseSubScene subScene){
         if(sceneToHide != null){
             sceneToHide.moveSubscene();
+            if (sceneToHide == neuromods) ((NeuromodsSubScene) neuromods).redrawSubScene();
         }
         subScene.moveSubscene();
         sceneToHide=subScene;
